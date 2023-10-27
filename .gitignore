@@ -130,5 +130,5 @@ dist
 .pnp.*
 
 # hardhat output
-cache/
-artifacts/
+cache
+artifacts
