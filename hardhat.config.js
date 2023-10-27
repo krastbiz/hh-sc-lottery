@@ -16,6 +16,15 @@ module.exports = {
         sepolia: { chainId: 11155111, url: SEPOLIA_RPC_URL, accounts: [PRIVATE_KEY] },
     },
 
+    gasReporter: {
+        enabled: false,
+        noColors: true,
+        currency: "USD",
+        // token: "ETH",
+        outputFile: "gas-report.txt",
+        // coinmarketcap: COINMARKETCAP_API_KEY,
+    },
+
     namedAccounts: {
         deployer: {
             default: 0,

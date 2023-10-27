@@ -104,6 +104,17 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
                 s_players.length,
                 uint256(s_raffleState)
             );
+
+        s_raffleState = RaffleState.CALCULATING;
+        uint256 requestId = i_vrfCoordinator.requestRandomWords(
+            i_gasLane, // gasLane
+            i_subscriptionId,
+            REQUEST_CONFIRMATIONS,
+            i_callbackGasLimit,
+            NUM_WORDS
+        );
+
+        emit RequestedRaffleWinner(requestId);
     }
 
     function requestRandomWinner() external {
@@ -169,5 +180,9 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
 
     function getRequestConfirmations() public pure returns (uint256) {
         return REQUEST_CONFIRMATIONS;
+    }
+
+    function getInterval() public view returns (uint256) {
+        return i_interval;
     }
 }

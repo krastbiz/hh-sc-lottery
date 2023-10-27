@@ -9,22 +9,21 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deployer } = await getNamedAccounts()
     const chainId = network.config.chainId
 
-    let vrfCoordinatorV2Address, subscriptioId
+    let vRFCoordinatorV2, vrfCoordinatorV2Address, subscriptioId
     if (developmentChains.includes(network.name)) {
         const vRFCoordinatorV2MockAddress = (await deployments.get("VRFCoordinatorV2Mock")).address
 
-        const vRFCoordinatorV2Mock = await ethers.getContractAt(
+        vRFCoordinatorV2 = await ethers.getContractAt(
             "VRFCoordinatorV2Mock",
             vRFCoordinatorV2MockAddress,
         )
         vrfCoordinatorV2Address = vRFCoordinatorV2MockAddress
-        const transactionResponse = await vRFCoordinatorV2Mock.createSubscription()
+        const transactionResponse = await vRFCoordinatorV2.createSubscription()
         const transactionReceipt = await transactionResponse.wait(1)
 
         subscriptioId = transactionReceipt.logs[0].args.subId
-
         // Fund the subscription
-        await vRFCoordinatorV2Mock.fundSubscription(subscriptioId, VRF_SUB_FUND_AMOUNT)
+        await vRFCoordinatorV2.fundSubscription(subscriptioId, VRF_SUB_FUND_AMOUNT)
     } else {
         vrfCoordinatorV2Address = networkConfig[chainId]["vrfCoordinatorV2"]
         subscriptioId = networkConfig[chainId]["subscriptionId"]
@@ -50,6 +49,10 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         log: true,
         waitConfirmations: networkConfig?.[chainId].blockConfirmations || 1,
     })
+
+    if (developmentChains.includes(network.name)) {
+        await vRFCoordinatorV2.addConsumer(subscriptioId, raffle.address)
+    }
 
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         log("[LOG] Verifying...")
