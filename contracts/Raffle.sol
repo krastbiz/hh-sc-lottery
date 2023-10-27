@@ -117,19 +117,6 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
         emit RequestedRaffleWinner(requestId);
     }
 
-    function requestRandomWinner() external {
-        s_raffleState = RaffleState.CALCULATING;
-        uint256 requestId = i_vrfCoordinator.requestRandomWords(
-            i_gasLane, // gasLane
-            i_subscriptionId,
-            REQUEST_CONFIRMATIONS,
-            i_callbackGasLimit,
-            NUM_WORDS
-        );
-
-        emit RequestedRaffleWinner(requestId);
-    }
-
     function fulfillRandomWords(
         uint256 /*requestId */,
         uint256[] memory randomWords
