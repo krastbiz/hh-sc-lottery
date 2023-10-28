@@ -25,6 +25,10 @@ module.exports = {
         // coinmarketcap: COINMARKETCAP_API_KEY,
     },
 
+    etherscan: {
+        apiKey: ETHERSCAN_API_KEY,
+    },
+
     namedAccounts: {
         deployer: {
             default: 0,
@@ -34,6 +38,6 @@ module.exports = {
         },
     },
     mocha: {
-        timeout: 200000, // 200 seconds max
+        timeout: 1000000, // 1000 seconds max
     },
 }

@@ -130,6 +130,7 @@ dist
 .pnp.*
 
 # hardhat output
+deployments
 cache
 artifacts
 coverage.json

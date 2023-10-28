@@ -5,7 +5,7 @@ const networkConfig = {
     11155111: {
         name: "Sepolia",
         vrfCoordinatorV2: "0x8103B0A8A00be2DDC778e6e7eaa21791Cd364625",
-        subscriptionId: "0",
+        subscriptionId: "6511",
         callbackGasLimit: "500000",
         interval: "30",
         entranceFee: ethers.parseEther("0.01"),

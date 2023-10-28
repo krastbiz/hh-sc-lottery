@@ -47,7 +47,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         from: deployer,
         args,
         log: true,
-        waitConfirmations: networkConfig?.[chainId].blockConfirmations || 1,
+        waitConfirmations: networkConfig?.[chainId].blockConfirmations || 6,
     })
 
     if (developmentChains.includes(network.name)) {
@@ -56,7 +56,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         log("[LOG] Verifying...")
-        verify(raffle.address)
+        await verify(raffle.address, args)
         log("----------------------------------------")
     }
 }
